@@ -47,7 +47,8 @@ if(build_using MATCHES "Matlab")
 
   caffe_fetch_and_set_proper_mexext(Matlab_caffe_mex)
   add_custom_command(OUTPUT ${Matlab_caffe_mex} COMMAND ${Matlab_mex}
-      ARGS -output ${Matlab_caffe_mex} ${Matlab_srcs} ${cflags} ${link_folders} ${libflags}
+      ARGS -output ${Matlab_caffe_mex} ${Matlab_srcs} ${cflags} 
+      -I/usr/local/cuda-10.0/targets/x86_64-linux/include ${link_folders} ${libflags}
       DEPENDS caffe COMMENT "Building Matlab interface: ${Matlab_caffe_mex}" VERBATIM)
   add_custom_target(matlab ALL DEPENDS ${Matlab_caffe_mex} SOURCES ${Matlab_srcs})
 
@@ -60,7 +61,9 @@ elseif(build_using MATCHES "Octave")
   endif()
 
   add_custom_command(OUTPUT ${Matlab_caffe_mex} COMMAND ${Octave_compiler}
-      ARGS --mex -o ${Matlab_caffe_mex} ${Matlab_srcs} ${cflags} ${link_folders} ${libflags} -Wl,-rpath,${rpath_folders}
+      ARGS --mex -o ${Matlab_caffe_mex} ${Matlab_srcs} ${cflags} 
+      -I../../include -I/usr/local/cuda-10.0/targets/x86_64-linux/include -std=c++11 
+      ${link_folders} ${libflags} -Wl,-rpath,${rpath_folders}
       DEPENDS caffe COMMENT "Building Octave interface: ${Matlab_caffe_mex}" VERBATIM)
 
   add_custom_target(octave ALL DEPENDS ${Matlab_caffe_mex} SOURCES ${Matlab_srcs})

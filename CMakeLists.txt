@@ -69,6 +69,7 @@ set(Caffe_SRC_DIR ${PROJECT_SOURCE_DIR}/src)
 include_directories(${PROJECT_BINARY_DIR})
 
 # ---[ Includes & defines for CUDA
+set(${CMAKE_CXX_FLAGS} "-D_FORCE_INLINES ${CMAKE_CXX_FLAGS}")
 
 # cuda_compile() does not have per-call dependencies or include pathes
 # (cuda_compile() has per-call flags, but we set them here too for clarity)
@@ -85,6 +86,7 @@ if(HAVE_CUDA)
   list(REMOVE_ITEM Caffe_ALL_DEFINITIONS PRIVATE PUBLIC)
   list(APPEND CUDA_NVCC_FLAGS ${Caffe_ALL_DEFINITIONS})
 endif()
+list(REMOVE_ITEM Caffe_LINKER_LIBS PRIVATE PUBLIC)
 
 # ---[ Subdirectories
 add_subdirectory(src/gtest)
